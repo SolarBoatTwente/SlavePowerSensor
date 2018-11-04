@@ -14,14 +14,12 @@
 
 int getAddress();
 
-void initiateAllPins();
+void initiatePins();
 
 void onRequestEvent();
 
-void receiveData();
+void relaySwitcher(int numBytes);
 
-void showStatus(boolean status);
-
-
+extern boolean RELAY_STATUS;
 
 #endif /* INCLUDE_FUNCTIONS_H_ */

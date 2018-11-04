@@ -43,7 +43,6 @@ void initiatePins(){
 	 *
 	 */
 
-
 	//initiating the data pins
 	pinMode(PIN_ISENSE_PV, INPUT);
 	pinMode(PIN_ISENSE_BAT, INPUT);
@@ -129,7 +128,7 @@ void onRequestEvent(){
 
 #endif
 
-	//Bitshifts the read gathered data such that it becomes exactly one byte
+	//Bitshifts the read gathered data such that it becomes exactly one byte (8 bits)
 	IsensPV = IsensPV >> 2;
 	VsensPV = VsensPV >> 2;
 	IsensBat = IsensBat >> 2;
@@ -143,8 +142,26 @@ void onRequestEvent(){
 
 }
 
-void relaySwitcher(){
 
-	int
+void relaySwitcher(int numBytes){
+	/*
+	 * Tests the data received from the master, if it is a 0 it is will turn of the relay, if it is a 1 it will turn on the relay
+	 *
+	 * This function needs to be put in the Wire.onrecieve()
+	 *
+	 * Inputs: message length in bytes (done automatically by the onReceive function)
+	 *
+	 * Ouptuts: none (but changes a global value of RELAY_STATUS)
+	 */
+
+	while(Wire.available()>0){
+		//If we receive that the relay should be on
+		if(Wire.read()==0){
+			RELAY_STATUS = false;
+		} else{
+			//turn relay on
+			RELAY_STATUS = true;
+		}
+	}
 
 }
