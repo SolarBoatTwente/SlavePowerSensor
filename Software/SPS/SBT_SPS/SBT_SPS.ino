@@ -99,15 +99,15 @@ void requestEvent() {
 	unsigned int IsensPV = analogRead(PIN_ISENSE_PV);
 
 	//send each 2 byte unsigned integer by cutting it in single bytes
-	Wire.write((VsensBat && 0xF0) >> 8);
-	Wire.write((VsensBat && 0x0F));
-	Wire.write((IsensBat && 0xF0) >> 8);
-	Wire.write((IsensBat && 0x0F));
+	Wire.write((VsensBat >> 8));
+	Wire.write((VsensBat && 0xFF));
+	Wire.write((IsensBat >> 8));
+	Wire.write((IsensBat && 0xFF));
 
-	Wire.write((VsensPV && 0xF0) >> 8);
-	Wire.write((VsensPV && 0x0F));
-	Wire.write((IsensPV && 0xF0) >> 8);
-	Wire.write((IsensPV && 0x0F));
+	Wire.write((VsensPV  >> 8));
+	Wire.write((VsensPV && 0xFF));
+	Wire.write((IsensPV >> 8));
+	Wire.write((IsensPV && 0xFF));
 
 #ifdef DEBUG
 	Serial.print("Sent I2C data from address "); Serial.println(myAddress);
