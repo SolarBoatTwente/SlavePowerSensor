@@ -51,7 +51,8 @@ void setup() {
 
 	pinMode(PIN_LED_STATUS, OUTPUT);
 	pinMode(PIN_LED_RELAY, OUTPUT);
-
+  digitalWrite(PIN_LED_STATUS, HIGH);
+  
 	pinMode(PIN_RELAY, OUTPUT);
 
 	// set this device its address
@@ -76,15 +77,15 @@ void setup() {
 void loop() {
 	// all the loop does is let a led blink faster when more current is detected
 	// the rest is handled via the request and receive events
-	if (digitalRead(PIN_LED_STATUS) == LOW) {
+	if (digitalRead(PIN_LED_STATUS) == HIGH) {
 		myBlinkCounter += analogRead(PIN_ISENSE_PV);
 		if (myBlinkCounter >= BLINK_LIMIT) {
-			digitalWrite(PIN_LED_STATUS, HIGH);
+			digitalWrite(PIN_LED_STATUS, LOW);
 		}
 	} else {
 		myBlinkCounter -= analogRead(PIN_ISENSE_PV);
 		if (myBlinkCounter < 0) {
-			digitalWrite(PIN_LED_STATUS, LOW);
+			digitalWrite(PIN_LED_STATUS, HIGH);
 		}
 	}
 	delay(10);
@@ -100,14 +101,14 @@ void requestEvent() {
 
 	//send each 2 byte unsigned integer by cutting it in single bytes
 	Wire.write((VsensBat >> 8));
-	Wire.write((VsensBat && 0xFF));
+	Wire.write((VsensBat & 0xFF));
 	Wire.write((IsensBat >> 8));
-	Wire.write((IsensBat && 0xFF));
+	Wire.write((IsensBat & 0xFF));
 
 	Wire.write((VsensPV  >> 8));
-	Wire.write((VsensPV && 0xFF));
+	Wire.write((VsensPV & 0xFF));
 	Wire.write((IsensPV >> 8));
-	Wire.write((IsensPV && 0xFF));
+	Wire.write((IsensPV & 0xFF));
 
 #ifdef DEBUG
 	Serial.print("Sent I2C data from address "); Serial.println(myAddress);
@@ -125,10 +126,8 @@ void receiveEvent(int numBytes) {
 
 		if (msg == 1) {
 			digitalWrite(PIN_RELAY, HIGH);
-			digitalWrite(PIN_LED_RELAY, HIGH);
 		} else {
 			digitalWrite(PIN_RELAY, LOW);
-			digitalWrite(PIN_LED_RELAY, LOW);
 		}
 #ifdef DEBUG
 		Serial.print("Message received; new relay status: "); Serial.println(msg);

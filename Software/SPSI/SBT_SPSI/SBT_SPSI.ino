@@ -75,7 +75,7 @@ void loop() {
 							// write relay setting to SPS
 							Wire.beginTransmission((I2C_ADDRESS + i * 8 + j));
 							// shorthand for check byte, bitshift byte j positions to the right, check if it is an odd number (=1) and write to I2C
-							Wire.write((msg.data[i] >> j) % 1);
+							Wire.write((msg.data[i] >> j) % 2);
 							Wire.endTransmission();
 						}
 #ifdef DEBUG
@@ -104,7 +104,7 @@ void loop() {
 
 		for (char i = 0; i < 16; i++) {
 			// only send messages to devices present
-			if ((SPSDevices >> i) % 1) {
+			if ((SPSDevices >> i) % 2) {
 				// initialize CAN buffer
 				tCAN msg;
 				msg.id = CAN_ADDRESS_POWER + i;

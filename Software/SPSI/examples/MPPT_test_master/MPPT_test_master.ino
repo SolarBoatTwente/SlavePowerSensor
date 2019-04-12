@@ -10,6 +10,7 @@ void setup() {
   Wire.begin();
   Serial.begin(9600);
   delay(100);
+  Serial.println("Initializing: getting adresses");
   numberOfSlaves = getAddresses();
 }
 
@@ -18,11 +19,14 @@ void loop() {
 
   for(int i = 0; i<numberOfSlaves; i++){
     Wire.requestFrom(allAddresses[i],8);
+    Wire.beginTransmission(allAddresses[i]);
+    Wire.write(1);
+    Wire.endTransmission();
     Serial.print("From device: ");
     Serial.print(allAddresses[i]);
     Serial.print("\t");
     while(Wire.available()){
-      total = 4 * Wire.read() + Wire.read(); 
+      total = 256 * Wire.read() + Wire.read(); 
       //total = Wire.read();
         Serial.print(total);
         Serial.print(" ");    
