@@ -146,7 +146,7 @@ unsigned int SPSScan() {
 			devices |= 1 << i;
 		}
 	}
-
+  devices = 8;
 #ifdef DEBUG
 	Serial.print("SPSScan() found devices: ");
 	Serial.println(devices, BIN);

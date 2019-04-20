@@ -11,10 +11,10 @@
 //#define DEBUG //uncomment to activate debug messages over Serial
 
 // Arduino Pin definitions
-#define PIN_VSENSE_PV 2 //A2
-#define PIN_ISENSE_PV 3 //A3
-#define PIN_VSENSE_BAT 1 //A1
-#define PIN_ISENSE_BAT 0 //A0
+#define PIN_VSENSE_PV A2 //A2
+#define PIN_ISENSE_PV A3 //A3
+#define PIN_VSENSE_BAT A1 //A1
+#define PIN_ISENSE_BAT A0 //A0
 
 #define PIN_I2C_CLOCK A5
 #define PIN_I2C_DATA A4
