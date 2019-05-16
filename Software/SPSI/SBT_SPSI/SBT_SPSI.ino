@@ -75,7 +75,7 @@ void loop() {
 							// write relay setting to SPS
 							Wire.beginTransmission((I2C_ADDRESS + i * 8 + j));
 							// shorthand for check byte, bitshift byte j positions to the right, check if it is an odd number (=1) and write to I2C
-							Wire.write((msg.data[i] >> j) % 2);
+							Wire.write((msg.data[1-i] >> j) % 2);
 							Wire.endTransmission();
 						}
 #ifdef DEBUG
@@ -146,7 +146,7 @@ unsigned int SPSScan() {
 			devices |= 1 << i;
 		}
 	}
-  devices = 8;
+  //devices = 8;
 #ifdef DEBUG
 	Serial.print("SPSScan() found devices: ");
 	Serial.println(devices, BIN);
