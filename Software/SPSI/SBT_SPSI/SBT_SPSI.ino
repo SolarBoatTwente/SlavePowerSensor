@@ -75,6 +75,7 @@ void loop() {
 							// write relay setting to SPS
 							Wire.beginTransmission((I2C_ADDRESS + i * 8 + j));
 							// shorthand for check byte, bitshift byte j positions to the right, check if it is an odd number (=1) and write to I2C
+              // If bytes is send: 01000100 00101100 then device numbers 3 4 6 11 16 (Numbering starts at 1)
 							Wire.write((msg.data[1-i] >> j) % 2);
 							Wire.endTransmission();
 						}
